@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Приют - Задача</title>
+    <style>
+        body { background-color: #e6f2ff; font-family: Arial; color: #333333; }
+        h1 { color: #003366; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .task-box { background-color: white; padding: 20px; border: 2px solid #99ccff; border-radius: 10px; width: 60%; margin: 0 auto; text-align: center; }
+        .btn { background-color: #004080; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; }
+        .btn:hover { background-color: #0066cc; }
+        #chisloA { padding: 10px; border: 1px solid #99ccff; border-radius: 5px; font-size: 16px; width: 150px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div align="center" style="background-color: #004080; padding: 15px;">
+        <a href="index1.html"><img src="Изображения/logo.png" width="80" height="80" alt="Логотип" style="filter: brightness(0) invert(1);"></a>
+        <br><br>
+        <font size="4" color="white">
+            <a href="index1.html" style="color: #b3d9ff;">Главная</a> | 
+            <a href="pets1.html" style="color: #b3d9ff;">Питомцы</a> | 
+            <a href="contact1.html" style="color: #b3d9ff;">Контакты</a> | 
+            <a href="dom_js1.html" style="color: #b3d9ff;">DOM и JS</a> | 
+            <b>Задача</b> |
+            <a href="https://yandex.ru/maps/2/saint-petersburg/search/приюты%20для%20животных%20в%20санкт%20петербурге/?ll=30.092861%2C59.940675&sll=30.092861%2C59.939265&z=9" target="_blank" style="color: #b3d9ff;">Приюты в Спб</a>
+        </font>
+    </div>
+    <hr>
+
+    <h1 align="center" style="color: #003366;">Решение задачи №1017</h1>
+
+    <div class="task-box">
+        <p><b>Условие:</b> Дано число A. Вычислить x = a*a*a*a, при a < 10; x = a при a > 61, в противном случае x = a - sin(a*a).</p>
+
+        <p>Введите число A:</p>
+        <input type="text" id="chisloA">
+        <br><br>
+        <button onclick="reshat()" class="btn">Вычислить</button>
+        <br><br>
+        <h3 id="otvet" style="color: #004080; background: #e6f2ff; padding: 10px; border-radius: 5px;">Ответ появится здесь</h3>
+    </div>
+
+    <script>
+        function reshat() {
+            var a = document.getElementById('chisloA').value;
+            a = parseFloat(a);
+            var x;
+
+            if (isNaN(a)) {
+                document.getElementById('otvet').innerHTML = "Ошибка! Введите число.";
+                return;
+            }
+
+            if (a < 10) {
+                x = a * a * a * a;
+            } else if (a > 61) {
+                x = a;
+            } else {
+                x = a - Math.sin(a * a);
+            }
+
+            document.getElementById('otvet').innerHTML = "Результат x = " + x;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Приют - DOM и JS</title>
+    <style>
+        body { background-color: #e6f2ff; font-family: Arial; color: #333333; }
+        h1 { color: #003366; }
+        h2 { color: #004080; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .result { border: 2px solid #99ccff; padding: 15px; background-color: white; border-radius: 8px; width: 50%; margin: 0 auto; }
+        .btn { background-color: #004080; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background-color: #0066cc; }
+    </style>
+</head>
+<body>
+
+    <div align="center" style="background-color: #004080; padding: 15px;">
+        <a href="index1.html"><img src="Изображения/logo.png" width="80" height="80" alt="Логотип" style="filter: brightness(0) invert(1);"></a>
+        <br><br>
+        <font size="4" color="white">
+            <a href="index1.html" style="color: #b3d9ff;">Главная</a> | 
+            <a href="pets1.html" style="color: #b3d9ff;">Питомцы</a> | 
+            <a href="contact1.html" style="color: #b3d9ff;">Контакты</a> | 
+            <b>DOM и JS</b> | 
+            <a href="algorithm1.html" style="color: #b3d9ff;">Задача</a> |
+            <a href="https://yandex.ru/maps/2/saint-petersburg/search/приюты%20для%20животных%20в%20санкт%20петербурге/?ll=30.092861%2C59.940675&sll=30.092861%2C59.939265&z=9" target="_blank" style="color: #b3d9ff;">Приюты в Спб</a>
+        </font>
+    </div>
+    <hr>
+
+    <h1 align="center">Работа с DOM</h1>
+
+    <div class="result">
+        <p>--- Документ ---</p>
+        <p>Гражданин РФ</p>
+        <p>Фамилия: <span id="fam">Иванов</span></p>
+        <p>Имя: <span id="name">Иван</span></p>
+        <p>Год: <span id="year">2000</span></p>
+    </div>
+
+    <div align="center" style="margin-top: 20px;">
+        <h3>Задание 1: Считать информацию</h3>
+        <button onclick="readInfo()" class="btn">Считать</button>
+        <p id="out1" style="font-weight: bold; color: #004080;">Тут будет результат...</p>
+
+        <h3>Задание 2: Изменить язык</h3>
+        <!-- Добавили id="btn-translate", чтобы менять текст на самой кнопке -->
+        <button onclick="toggleLanguage()" id="btn-translate" class="btn">Изменить на латиницу</button>
+    </div>
+
+    <script>
+        // Переменная-флаг: false = русский, true = латиница
+        var isLatin = false;
+        
+        // Переменные для хранения исходного русского текста
+        var originalFam = "";
+        var originalName = "";
+
+        function readInfo() {
+            var text1 = document.getElementsByTagName('p')[2].childNodes[1].innerText;
+            var text2 = document.getElementById('name').innerText;
+            var text3 = document.getElementById('year').innerText;
+            
+            document.getElementById('out1').innerHTML = "Фамилия: " + text1 + "<br>Имя: " + text2 + "<br>Год: " + text3;
+        }
+
+        function toggleLanguage() {
+            var slovar = {
+                'И':'I', 'в':'v', 'а':'a', 'н':'n', 'о':'o', 
+                'Г':'G', 'д':'d', 'р':'r', 'Ф':'F', 'м':'m'
+            };
+
+            var famElem = document.getElementById('fam');
+            var nameElem = document.getElementById('name');
+            var btn = document.getElementById('btn-translate');
+
+            // Если сейчас русский текст (isLatin == false) - переводим на латиницу
+            if (isLatin == false) {
+                // 1. Запоминаем русский текст перед изменением
+                originalFam = famElem.innerText;
+                originalName = nameElem.innerText;
+
+                // 2. Переводим
+                var famText = famElem.innerText;
+                var nameText = nameElem.innerText;
+                var newFam = "";
+                var newName = "";
+
+                for (var i = 0; i < famText.length; i++) {
+                    var bukva = famText[i];
+                    if (slovar[bukva]) {
+                        newFam = newFam + slovar[bukva];
+                    } else {
+                        newFam = newFam + bukva;
+                    }
+                }
+
+                for (var j = 0; j < nameText.length; j++) {
+                    var bukva2 = nameText[j];
+                    if (slovar[bukva2]) {
+                        newName = newName + slovar[bukva2];
+                    } else {
+                        newName = newName + bukva2;
+                    }
+                }
+
+                // 3. Записываем латиницу на страницу
+                famElem.innerText = newFam;
+                nameElem.innerText = newName;
+
+                // 4. Меняем флаг и текст на кнопке
+                isLatin = true;
+                btn.innerText = "Вернуть на русский";
+
+            } else {
+                // Если сейчас латиница (isLatin == true) - возвращаем русский текст
+                
+                // 1. Возвращаем сохраненный текст
+                famElem.innerText = originalFam;
+                nameElem.innerText = originalName;
+
+                // 2. Меняем флаг и текст на кнопке обратно
+                isLatin = false;
+                btn.innerText = "Изменить на латиницу";
+            }
+        }
+    </script>
+
+</body>
+</html>
