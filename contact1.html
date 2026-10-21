@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Приют - Контакты</title>
+    <style>
+        body { background-color: #e6f2ff; font-family: Arial; color: #333333; }
+        h1 { color: #003366; }
+        h2 { color: #004080; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .form-box { background-color: white; padding: 20px; border: 2px solid #99ccff; border-radius: 10px; }
+        .btn { background-color: #004080; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background-color: #0066cc; }
+        input[type="text"], input[type="tel"], input[type="email"], input[type="date"], input[type="number"], input[type="password"] {
+            padding: 5px; border: 1px solid #99ccff; border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div align="center" style="background-color: #004080; padding: 15px;">
+        <a href="index1.html"><img src="Изображения/logo.png" width="80" height="80" alt="Логотип" style="filter: brightness(0) invert(1);"></a>
+        <br><br>
+        <font size="4" color="white">
+            <a href="index1.html" style="color: #b3d9ff;">Главная</a> | 
+            <a href="pets1.html" style="color: #b3d9ff;">Питомцы</a> | 
+            <b>Контакты</b> | 
+            <a href="dom_js1.html" style="color: #b3d9ff;">DOM и JS</a> | 
+            <a href="algorithm1.html" style="color: #b3d9ff;">Задача</a> |
+            <a href="https://yandex.ru/maps/2/saint-petersburg/search/приюты%20для%20животных%20в%20санкт%20петербурге/?ll=30.092861%2C59.940675&sll=30.092861%2C59.939265&z=9" target="_blank" style="color: #b3d9ff;">Приюты в Спб</a>
+        </font>
+    </div>
+    <hr>
+
+    <h1 align="center">Связаться с нами</h1>
+
+    <div class="form-box" style="width: 50%; margin: 0 auto;">
+        <h2>Анкета волонтера</h2>
+        <form action="https://httpbin.org/post" method="POST">
+            Фамилия: <input type="text" name="fam"><br><br>
+            Имя: <input type="text" name="name"><br><br>
+            Группа: <input type="text" name="group"><br><br>
+            Телефон: <input type="tel" name="phone"><br><br>
+            Email: <input type="email" name="email"><br><br>
+            Дата: <input type="date" name="date"><br><br>
+            <button type="button" onclick="downloadCSV()" class="btn">Скачать анкету в Excel (CSV)</button>
+        </form>
+    </div>
+
+    <br>
+
+    <div class="form-box" style="width: 50%; margin: 0 auto;">
+        <h2>Заявка на питомца</h2>
+        <form action="https://httpbin.org/post" method="POST">
+            Кличка (text): <input type="text" name="animal"><br><br>
+            Ваш возраст (number): <input type="number" name="age"><br><br>
+            
+            Жилье (radio): <br>
+            <input type="radio" name="home" value="flat"> Квартира<br>
+            <input type="radio" name="home" value="house"> Дом<br><br>
+            
+            Согласие (checkbox): <input type="checkbox" name="agree"><br><br>
+            
+            Дата визита (date): <input type="date" name="visit"><br><br>
+            Пароль (password): <input type="password" name="pass"><br><br>
+            
+            <input type="hidden" name="site" value="priut">
+            <input type="hidden" name="status" value="new">
+            
+                       
+            <button type="button" onclick="downloadCSVForm2()" class="btn">Скачать заявку в Excel (CSV)</button>
+        </form>
+    </div>
+<script>
+function downloadCSV() {
+
+    var fam = document.querySelector('input[name="fam"]').value;
+    var name = document.querySelector('input[name="name"]').value;
+    var group = document.querySelector('input[name="group"]').value;
+    var phone = document.querySelector('input[name="phone"]').value;
+    var email = document.querySelector('input[name="email"]').value;
+    var date = document.querySelector('input[name="date"]').value;
+
+    var csvContent = "Фамилия;Имя;Группа;Телефон;Email;Дата\n";
+    csvContent += fam + ";" + name + ";" + group + ";" + phone + ";" + email + ";" + date;
+
+    var blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' }); 
+    var link = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Заявки_из_приюта.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+<script>
+
+function downloadCSVForm2() {
+
+    var animal = document.querySelector('input[name="animal"]').value;
+    var age = document.querySelector('input[name="age"]').value;
+    var visit = document.querySelector('input[name="visit"]').value;
+
+    var home = "Не выбрано";
+    var homeElements = document.getElementsByName('home');
+    for (var i = 0; i < homeElements.length; i++) {
+        if (homeElements[i].checked) {
+
+            if (homeElements[i].value == 'flat') {
+                home = "Квартира";
+            } else {
+                home = "Дом";
+            }
+        }
+    }
+
+    var agreeCheckbox = document.querySelector('input[name="agree"]');
+    var agree = agreeCheckbox.checked ? "Да" : "Нет";
+
+    var site = document.querySelector('input[name="site"]').value;
+    var status = document.querySelector('input[name="status"]').value;
+
+    var csvContent = "Кличка;Возраст;Жилье;Согласие;Дата визита;Источник;Статус\n";
+    csvContent += animal + ";" + age + ";" + home + ";" + agree + ";" + visit + ";" + site + ";" + status;
+
+    var blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Заявки_на_питомцев.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+</body>
+</html>
+</body>
+</html>
